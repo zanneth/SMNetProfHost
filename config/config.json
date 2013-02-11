@@ -1,0 +1,4 @@
+{
+    "bisquits_path" : "/var/www/smnetprofhost/data/bisquits",
+    "database_path" : "/var/www/smnetprofhost/data/database.sqlite"
+}
