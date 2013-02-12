@@ -1,4 +1,9 @@
 {
     "bisquits_path" : "/var/www/smnetprofhost/data/bisquits",
-    "database_path" : "/var/www/smnetprofhost/data/database.sqlite"
+
+    "database_hostname" : "localhost",
+    "database_port" : 8889,
+    "database_name" : "smnetprofhost",
+    "database_username" : "root",
+    "database_password" : "root"
 }

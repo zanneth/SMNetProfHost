@@ -33,6 +33,16 @@ class Util {
 
         return $__config_dict->{$key};
     }
+
+    static function log_description($object)
+    {
+        ob_start();
+        var_dump($object);
+        $buf = ob_get_contents();
+        ob_end_clean();
+
+        error_log($buf);
+    }
 }
 
 ?>
