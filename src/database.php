@@ -51,9 +51,6 @@ class SMNetProfDatabase {
 
     public function create_schema_if_nonexistent()
     {
-        // temporary
-        $this->execute_update("DROP DATABASE `smnetprofhost`");
-
         // check if the database exists first
         $db_name = Util::config_get_key("database_name");
         $db_exists = count($this->execute_query("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '$db_name'")) > 0;
