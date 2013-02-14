@@ -48,6 +48,16 @@ if (!is_null($user)) {
             <?php foreach ($biscuits as $idx => $biscuit): ?>
                 <div class="biscuit">
                     <h3>Biscuit <?=intval($idx)+1?></h3>
+                    <table class="property-table">
+                        <tr>
+                            <td class="property-table-key">
+                                file_path
+                            </td>
+                            <td class="property-list-value">
+                                <?=$biscuit->get_biscuit_path()?>
+                            </td>
+                        </tr>
+                    </table>
                     <?=$biscuit->property_list_markup()?>
                 </div>
             <?php endforeach; ?>

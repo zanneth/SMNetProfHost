@@ -45,8 +45,7 @@ class Biscuit extends ModelBase {
     static function copy_biscuit_files($biscuit_path)
     {
         $filenames = array(
-            STATS_FILENAME,
-            EDITABLE_FILENAME
+            STATS_FILENAME
         );
         $success = true;
 
