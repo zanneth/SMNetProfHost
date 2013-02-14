@@ -12,7 +12,6 @@ require_once "src/util.php";
 class NotFoundException extends Exception {}
 
 class ModelBase {
-	public $table_name;
 	public $primary_key;
 
 	public function __construct($values = array())
@@ -24,7 +23,7 @@ class ModelBase {
 		if ($this->primary_key && count($values) == 1) {
 			// Table and column names cannot be replaced by parameters in PDO.
 			// See: http://us3.php.net/manual/en/book.pdo.php#69304
-			$query = "SELECT * FROM $this->table_name WHERE `id` = :id";
+			$query = sprintf("SELECT * FROM %s WHERE `id` = :id", $this->get_table_name());
 			$params = array(":id" => $this->primary_key);
 			$db = new SMNetProfDatabase();
 			$results = $db->execute_query($query, $params);
@@ -48,15 +47,27 @@ class ModelBase {
 		}
 	}
 
-	static public function exists($id)
+	static function get_table_name()
+	{
+		// subclasses must override
+		return NULL;
+	}
+
+	static function exists($id)
 	{
 		$db = new SMNetProfDatabase();
-		$exists = count($db->execute_query("SELECT * FROM $this->table_name WHERE `id` = :id", array($id))) > 0;
+		$query = sprintf("SELECT * FROM %s WHERE `id` = :id", $this->get_table_name());
+		$exists = count($db->execute_query($query, array($id))) > 0;
 		return $exists;
 	}
 
 	public function save()
 	{
+		$is_updating = isset($this->primary_key);
+		if (!$is_updating) {
+			$this->before_create();
+		}
+
 		// Determine which values need to be updated
 	    $new_values = array();
 		foreach ($this as $var => $value) {
@@ -75,7 +86,7 @@ class ModelBase {
 		$query = NULL;
 		$params = array();
 
-		if ($this->primary_key) {
+		if ($is_updating) {
 			$set_vars = array();
 			foreach ($new_values as $key => $value) {
 				$set_vars[] = "$key=:$key"; 
@@ -83,7 +94,7 @@ class ModelBase {
 			}
 
 			$set_str = implode(", ", $set_vars);
-			$query = "UPDATE $this->table_name SET $set_str WHERE `id` = :id";
+			$query = sprintf("UPDATE %s SET $set_str WHERE `id` = :id", $this->get_table_name());
 			$params[":id"] = $this->primary_key;
 		} else {
 			$fields_arr = array();
@@ -96,23 +107,28 @@ class ModelBase {
 
 			$fields_str = implode(", ", $fields_arr);
 			$params_str = implode(", ", $params_arr);
-			$query = "INSERT INTO $this->table_name ($fields_str)
-					  VALUES ($params_str)";
+			$query = sprintf("INSERT INTO %s (%s) VALUES (%s)", $this->get_table_name(), $fields_str, $params_str);
 		}
 
 		$db = new SMNetProfDatabase();
-		$db->execute_update($query, $params, $insert_id);
+		$success = $db->execute_update($query, $params, $insert_id);
 		if (!$this->primary_key) {
 			$this->primary_key = intval($insert_id);
 		}
 
-		return true;
+		if ($success) {
+			$this->after_create();
+		} else {
+			error_log(sprintf("Failed to save model: %s", Util::get_description($this)));
+		}
+
+		return $success;
 	}
 
 	public function delete()
 	{
 		if ($this->primary_key) {
-			$query = "DELETE FROM $this->table_name WHERE id = :id";
+			$query = sprintf("DELETE FROM %s WHERE id = :id", $this->get_table_name());
 			$params = array("id" => $this->primary_key);
 			$db = new SMNetProfDatabase();
 			$db->execute_update($query, $params);
@@ -120,6 +136,22 @@ class ModelBase {
 			throw new NotFoundException();
 		}
 	}
+
+	public function property_list_markup()
+	{
+		$rows_markup = "";
+		foreach ($this as $key => $value) {
+			$key_markup = "<td class='property-table-key'>$key</td>";
+			$value_markup = "<td class='property-table-value'>$value</td>";
+			$row_markup = sprintf("<tr>%s%s</tr>", $key_markup, $value_markup);
+			$rows_markup .= $row_markup;
+		}
+		$markup = sprintf("<table class='property-table'>%s</table>", $rows_markup);
+		return $markup;
+	}
+
+	protected function before_create() {}
+	protected function after_create() {}
 }
 
 ?>

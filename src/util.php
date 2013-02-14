@@ -34,14 +34,39 @@ class Util {
         return $__config_dict->{$key};
     }
 
-    static function log_description($object)
+    static function get_description($object)
     {
         ob_start();
         var_dump($object);
         $buf = ob_get_contents();
         ob_end_clean();
+        
+        return $buf;
+    }
 
-        error_log($buf);
+    static function log_description($object)
+    {
+        $descr = self::get_description($object);
+        error_log($descr);
+    }
+
+    static function verify_required_keys(array $dict, array $required_keys, &$out_missing_keys = array())
+    {
+        $missing_keys = array();
+        foreach ($required_keys as $key) {
+            if (!array_key_exists($key, $dict)) {
+                $missing_keys[] = $key;
+            }
+        }
+
+        $out_missing_keys = $missing_keys;
+        return (count($missing_keys) == 0);
+    }
+
+    static function redirect($url)
+    {
+        $header_str = sprintf("Location: %s", $url);
+        header($header_str);
     }
 }
 

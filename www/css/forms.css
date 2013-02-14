@@ -1,0 +1,9 @@
+form.user-form {
+    padding: 20px;
+    text-align: center;
+}
+
+form.user-form > input { 
+    display: block;
+    margin: 20px auto;
+}

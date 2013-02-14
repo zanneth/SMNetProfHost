@@ -7,19 +7,31 @@
  */
 
 require_once "src/models/base.php";
+require_once "src/models/biscuit.php";
 require_once "src/database.php";
 
 define("ACTIVE_USER_SESSION_KEY", "com.magahern.smnetprofhost.activeuser");
 
 class User extends ModelBase {
-    public $table_name = "users";
-
     public $username;
     public $password_hash;
+    public $uuid;
     public $display_name;
     public $highscore_name;
     public $weight;
     public $num_credits;
+
+    /* Overrides */
+
+    static function get_table_name()
+    {
+        return "users";
+    }
+
+    protected function before_create()
+    {
+        $this->uuid = uniqid();
+    }
 
     /* Managing Active User */
 
@@ -52,13 +64,13 @@ class User extends ModelBase {
     function set_password($password)
     {
         $hsh = $this->_hash_password($password);
-        $this->_password_hash = $hsh;
+        $this->password_hash = $hsh;
     }
 
     function check_password($password)
     {
         $hsh = $this->_hash_password($password);
-        return $hsh == $this->_password_hash;
+        return $hsh == $this->password_hash;
     }
 
     /* Aggregate Constructors */
@@ -76,6 +88,20 @@ class User extends ModelBase {
         }
 
         return $user;
+    }
+
+    /* Fetching Data */
+
+    public function get_biscuits()
+    {
+        $db = new SMNetProfDatabase();
+        $query = sprintf("SELECT * FROM %s WHERE `owner_id` = :owner_id", Biscuit::get_table_name());
+        $rows = $db->execute_query($query, array(":owner_id" => $this->primary_key));
+        $biscuits = array();
+        foreach ($rows as $row) {
+            $biscuits[] = new Biscuit($row);
+        }
+        return $biscuits;
     }
 
     /* Private Functions */

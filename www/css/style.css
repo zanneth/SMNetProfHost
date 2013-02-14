@@ -1,0 +1,47 @@
+html {
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+a {
+    color: #3388ff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.error {
+	color: red;
+}
+
+.success {
+	color: green;
+}
+
+.no-data {
+    color: #333;
+    font-style: italic;
+}
+
+div.spaced-container {
+    padding: 10px 0;
+}
+
+table.property-table {
+    table-layout: fixed;
+}
+
+table.property-table td {
+    padding: 5px 10px;
+}
+
+td.property-table-key {
+    font-weight: bold;
+    text-align: right;
+}
+
+td.property-table-value {
+    text-align: left;
+}

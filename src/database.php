@@ -26,7 +26,11 @@ class SMNetProfDatabase {
             throw new Exception("Could not open SQLite database.");
         }
 
+        // tell PDO to throw an exception on error
+        $this->_pdo_handle->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
         $this->create_schema_if_nonexistent();
+        $this->use_database($db_name);
     }
 
     static function get_pdo_type($object)
@@ -47,6 +51,11 @@ class SMNetProfDatabase {
         }
 
         return $pdo_type;
+    }
+
+    public function use_database($database_name)
+    {
+        return $this->execute_update(sprintf("USE %s;", $database_name));
     }
 
     public function create_schema_if_nonexistent()
@@ -99,6 +108,10 @@ class SMNetProfDatabase {
         }
 
         $success = $statement->execute();
+        if (!$success) {
+            error_log("Error executing statement");
+            Util::log_description($this->_pdo_handle->errorInfo());
+        }
         $insert_id = $this->_pdo_handle->lastInsertId();
         return $success;
     }

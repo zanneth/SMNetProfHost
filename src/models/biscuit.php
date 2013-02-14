@@ -16,19 +16,33 @@ define("EDITABLE_FILENAME", "editable.xml");
 define("DEFAULT_BISQUIT_DIRNAME", "default");
 
 class Biscuit extends ModelBase {
-    public $table_name = "biscuits";
-
     public $date_created;
     public $uuid;
     public $owner_id;
 
-    public static function get_default_biscuit_path()
+    /* Overrides */
+
+    static function get_table_name()
+    {
+        return "biscuits";
+    }
+
+    public function delete()
+    {
+        $biscuit_path = $this->get_biscuit_path();
+        unlink($biscuit_path);
+        super::delete();
+    }
+
+    /* API */
+
+    static function get_default_biscuit_path()
     {
         $biscuits_path = Util::config_get_key("biscuits_path");
         return Util::path_join(array($biscuits_path, DEFAULT_BISQUIT_DIRNAME));
     }
 
-    public static function copy_biscuit_files($biscuit_path)
+    static function copy_biscuit_files($biscuit_path)
     {
         $filenames = array(
             STATS_FILENAME,
@@ -37,7 +51,8 @@ class Biscuit extends ModelBase {
         $success = true;
 
         if (!is_dir($biscuit_path)) {
-            $success = mkdir($biscuit_path);
+            error_log(sprintf("Creating new biscuit at path %s", $biscuit_path));
+            $success = mkdir($biscuit_path, 0775);
             if (!$success) {
                 error_log("Could not create new biscuit file at path " . $biscuit_path);
             }
@@ -59,14 +74,14 @@ class Biscuit extends ModelBase {
         return $success;
     }
 
-    public static function biscuit_exists($primary_key)
+    static function biscuit_exists($primary_key)
     {
-        $sql = sprintf("SELECT COUNT() FROM %s WHERE id = %d", self::$table_name, $primary_key);
+        $sql = sprintf("SELECT COUNT() FROM %s WHERE id = %d", $this->get_table_name(), $primary_key);
         $db = new SMNetProfDatabase();
         return $db->fetch_row($sql)[0];
     }
 
-    public static function create_biscuit()
+    static function create_biscuit($owner_id)
     {
         $biscuit = NULL;
         $new_uuid = uniqid();
@@ -79,8 +94,11 @@ class Biscuit extends ModelBase {
         // create the new biscuit in the database
         if ($copy_success) {
             $db = new SMNetProfDatabase();
+
             $biscuit = new Biscuit();
-            $bisquit->uuid = $new_uuid;
+            $biscuit->owner_id = $owner_id;
+            $biscuit->uuid = $new_uuid;
+
             $success = $biscuit->save();
             if (!$success) {
                 throw new Exception("Could not create new biscuit.");

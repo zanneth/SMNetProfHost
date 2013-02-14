@@ -1,5 +1,5 @@
 {
-    "bisquits_path" : "/var/www/smnetprofhost/data/bisquits",
+    "biscuits_path" : "/var/www/smnetprofhost/data/biscuits",
 
     "database_hostname" : "localhost",
     "database_port" : 8889,
