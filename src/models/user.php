@@ -12,6 +12,14 @@ require_once "src/database.php";
 
 define("ACTIVE_USER_SESSION_KEY", "com.magahern.smnetprofhost.activeuser");
 
+$__editable_xml_format = <<<EOD
+<Editable>
+    <DisplayName>%s</DisplayName>
+    <LastUsedHighScoreName>%s</LastUsedHighScoreName>
+    <WeightPounds>%d</WeightPounds>
+</Editable>
+EOD;
+
 class User extends ModelBase {
     public $username;
     public $password_hash;
@@ -102,6 +110,14 @@ class User extends ModelBase {
             $biscuits[] = new Biscuit($row);
         }
         return $biscuits;
+    }
+
+    /* API */
+
+    public function generate_editable_xml_str()
+    {
+        $xml_str = sprintf($__editable_xml_format, $this->display_name, $this->highscore_name, $this->weight);
+        return $xml_str;
     }
 
     /* Private Functions */

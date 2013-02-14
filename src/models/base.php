@@ -117,7 +117,11 @@ class ModelBase {
 		}
 
 		if ($success) {
-			$this->after_create();
+			if (!$is_updating) {
+				$this->after_create();
+			}
+
+			$this->on_save();
 		} else {
 			error_log(sprintf("Failed to save model: %s", Util::get_description($this)));
 		}
@@ -152,6 +156,7 @@ class ModelBase {
 
 	protected function before_create() {}
 	protected function after_create() {}
+	protected function on_save() {}
 }
 
 ?>
