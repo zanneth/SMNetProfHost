@@ -74,6 +74,8 @@ class PassbookPass {
     public $logo_highres_path;
     public $thumbnail_path;
     public $thumbnail_highres_path;
+    public $strip_path;
+    public $strip_highres_path;
 
     // style options
     public $logo_text;          // string
@@ -149,6 +151,8 @@ class PassbookPass {
         $success &= $this->_copy_if_set($this->logo_highres_path, $destination_path, "logo@2x.png");
         $success &= $this->_copy_if_set($this->thumbnail_path, $destination_path, "thumbnail.png");
         $success &= $this->_copy_if_set($this->thumbnail_highres_path, $destination_path, "thumbnail@2x.png");
+        $success &= $this->_copy_if_set($this->strip_path, $destination_path, "strip.png");
+        $success &= $this->_copy_if_set($this->strip_highres_path, $destination_path, "strip@2x.png");
 
         return $success;
     }
@@ -302,11 +306,11 @@ class PassbookPass {
                 $field_dicts[] = $field_dict;
             }
 
-            if (!array_key_exists("generic", $dict)) {
-                $dict["generic"] = array();
+            if (!array_key_exists("storeCard", $dict)) {
+                $dict["storeCard"] = array();
             }
 
-            $dict["generic"][$fields_type_key] = $field_dicts;
+            $dict["storeCard"][$fields_type_key] = $field_dicts;
         }
     }
 
@@ -341,7 +345,7 @@ class SMNetProfPass extends PassbookPass {
         $this->pass_type_identifier = "pass.com.magahern.smnetprofile";
         $this->format_version = 1;
         $this->team_identifier = "64S2YWUDC5";
-        $this->organization_name = "Connish Gemini";
+        $this->organization_name = "Twins DDR Machine";
         $this->description = "Stepmania Net Profile Pass";
 
         $this->certificate_path = Util::path_join(array(PROJECT_ROOT, "support", "PassCertificate.p12"));
@@ -350,13 +354,16 @@ class SMNetProfPass extends PassbookPass {
         $this->certificate_password = "OMHDGC1jh7UjcP";
 
         $this->back_fields[] = new PassbookField("splash_beats", "Just Got Splash Beats!");
+        $this->back_fields[] = new PassbookField("address", "4066 Fitzpatrick Way\nSanta Clara, CA 95054", "Address");
 
         $this->icon_path = Util::get_asset_path("icon.png");
         $this->icon_highres_path = Util::get_asset_path("icon@2x.png");
         $this->logo_path = Util::get_asset_path("logo.png");
         $this->logo_highres_path = Util::get_asset_path("logo@2x.png");
+        $this->strip_path = Util::get_asset_path("strip.png");
+        $this->strip_highres_path = Util::get_asset_path("strip@2x.png");
 
-        $this->relevant_date = gmdate(TIMESTAMP_FORMAT, time());
+        // $this->relevant_date = gmdate(TIMESTAMP_FORMAT, time());
         // James and Charles's House: 37.397564, -121.945148
         $this->locations[] = array("latitude" => 37.397564, "longitude" => -121.945148);
     }
@@ -370,18 +377,17 @@ class UserPassbookPass extends SMNetProfPass {
         parent::__construct();
         $this->user = $user;
 
-        $this->logo_text = $user->username;
-        $this->background_color = array(255, 0, 0); // red background
+        $this->logo_text = "DDR Stepmania Profile";
+        $this->background_color = array(115, 0, 0); // red background
         $this->foreground_color = array(255, 255, 255);
+        $this->label_color = array(255, 255, 255);
 
-        $username_field = new PassbookField("username", $user->username, "Username");
+        $username_field = new PassbookField("display_name", $user->display_name, "Name");
         $credits_field = new PassbookField("credits", $user->num_credits, "Available Credits");
-        $display_name_field = new PassbookField("display_name", $user->display_name, "Display Name");
         $highscore_name_field = new PassbookField("highscore_name", $user->highscore_name, "High Score Name");
 
         $this->primary_fields[] = $username_field;
         $this->secondary_fields[] = $credits_field;
-        $this->secondary_fields[] = $display_name_field;
         $this->secondary_fields[] = $highscore_name_field;
 
         $uuid = $user->uuid;
