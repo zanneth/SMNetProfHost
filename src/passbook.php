@@ -226,10 +226,13 @@ class PassbookPass {
             if ($filename[0] != '.') {
                 $filepath = Util::path_join(array($pass_path, $filename));
                 $zip->addFile($filepath, $filename);
+				error_log($zip->getStatusString());
             }
         }
 
         $success = $zip->close();
+		error_log($zip->getStatusString());
+		error_log($destination_path);
         return $success;
     }
 
@@ -241,6 +244,12 @@ class PassbookPass {
         if (!$success) {
             throw new Exception("Could not create temporary pass directory at " . $pass_dir);
         }
+
+		$dest_dir = dirname($destination_path);
+		error_log("DIRNAME: " . $dest_dir);
+		if (!is_dir($dest_dir)) {
+			mkdir($dest_dir, 0777, true);
+		}
 
         error_log("Creating pass at temporary path " . $pass_dir);
 
