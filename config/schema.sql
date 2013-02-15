@@ -1,0 +1,24 @@
+DROP TABLE IF EXISTS `users`;
+
+CREATE TABLE `users` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `username` VARCHAR(128) DEFAULT NULL,
+  `password_hash` VARCHAR(256) DEFAULT NULL,
+  `uuid` VARCHAR(256) DEFAULT NULL,
+  `display_name` VARCHAR(256) DEFAULT NULL,
+  `highscore_name` VARCHAR(32) DEFAULT NULL,
+  `weight` INT DEFAULT NULL,
+  `num_credits` INT DEFAULT '0',
+  `pass_filename` VARCHAR(256) DEFAULT NULL
+) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `biscuits`;
+
+CREATE TABLE `biscuits` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `date_created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `uuid` VARCHAR(256) DEFAULT NULL,
+  `owner_id` INT DEFAULT NULL,
+  `pass_filename` VARCHAR(256) DEFAULT NULL,
+  CONSTRAINT `biscuits_users` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB;
