@@ -100,7 +100,24 @@ class User extends ModelBase {
 
         $user = NULL;
         if (count($results) > 0) {
-            $user = new User($results[0]);
+            $user_id = $results[0];
+            $user = new User(array("id" => $user_id));
+        }
+
+        return $user;
+    }
+
+    static function fetch_user_for_uuid($uuid)
+    {
+        $query = "SELECT `id` FROM `users` WHERE `uuid` = :uuid";
+        $params = array(":uuid" => $uuid);
+        $db = new SMNetProfDatabase();
+        $results = $db->execute_query($query, $params);
+
+        $user = NULL;
+        if (count($results) > 0) {
+            $user_id = $results[0];
+            $user = new User(array("id" => $user_id));
         }
 
         return $user;
@@ -124,6 +141,7 @@ class User extends ModelBase {
 
     public function generate_editable_xml_str()
     {
+        global $__editable_xml_format;
         $xml_str = sprintf($__editable_xml_format, $this->display_name, $this->highscore_name, $this->weight);
         return $xml_str;
     }
