@@ -15,7 +15,9 @@ class Util {
         foreach ($path_components as $idx => $component) {
             $filepath .= $component;
             if ($idx < count($path_components) - 1) {
-                $filepath .= DIRECTORY_SEPARATOR;
+				if ($filepath[strlen($filepath) - 1] != DIRECTORY_SEPARATOR) {
+					$filepath .= DIRECTORY_SEPARATOR;
+				}
             }
         }
 
