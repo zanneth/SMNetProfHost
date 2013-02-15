@@ -14,6 +14,7 @@ if (!$valid_request) {
 $primary_key = $_POST["id"];
 $username = $_POST["username"];
 $password = $_POST["password"];
+$display_name = array_key_exists("display_name", $_POST) ? $_POST["display_name"] : NULL;
 
 $user = NULL;
 if ($primary_key) {
@@ -24,6 +25,9 @@ if ($primary_key) {
 
 $user->username = $username;
 $user->set_password($password);
+if ($display_name) {
+    $user->display_name = $display_name;
+}
 $success = $user->save();
 
 if ($success) {
