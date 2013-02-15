@@ -78,7 +78,8 @@ class Biscuit extends ModelBase {
     {
         $sql = sprintf("SELECT COUNT() FROM %s WHERE id = %d", $this->get_table_name(), $primary_key);
         $db = new SMNetProfDatabase();
-        return $db->fetch_row($sql)[0];
+        $row = $db->fetch_row($sql);
+        return $row[0];
     }
 
     static function create_biscuit($owner_id)
