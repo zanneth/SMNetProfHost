@@ -11,6 +11,7 @@ require_once "src/util.php";
 
 class NotFoundException extends Exception {}
 
+/* Quick-and-dirty database abstraction model */
 class ModelBase {
 	public $primary_key;
 

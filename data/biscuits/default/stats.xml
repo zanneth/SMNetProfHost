@@ -10,7 +10,7 @@
 <Data>local tab1 = { }
 return tab1</Data>
 <DefaultModifiers>
-	<dance></dance>
+	<dance>1x</dance>
 </DefaultModifiers>
 <DisplayName></DisplayName>
 <GoalCalories>0</GoalCalories>

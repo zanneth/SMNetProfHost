@@ -19,6 +19,7 @@ class Biscuit extends ModelBase {
     public $date_created;
     public $uuid;
     public $owner_id;
+    public $pass_filename;
 
     /* Overrides */
 
@@ -31,7 +32,7 @@ class Biscuit extends ModelBase {
     {
         $biscuit_path = $this->get_biscuit_path();
         unlink($biscuit_path);
-        super::delete();
+        parent::delete();
     }
 
     /* API */

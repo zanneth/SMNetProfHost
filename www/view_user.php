@@ -36,7 +36,27 @@ if (!is_null($user)) {
 <?php else: ?>
     <h1><?=$user->username?></h1>
 
-    <?=$user->property_list_markup()?>
+    <?=$user->property_list_markup();?>
+
+    <?php if ($user->pass_filename): ?>
+        <div id="passbook-container">
+            <a href="api/download_pass.php?user_id=<?=$user->primary_key?>">
+                <img src="img/passbook.png" />
+            </a>
+
+            <span>Download Passbook Pass</span>
+        </div>
+    <?php else: ?>
+        <div id="passbook-container">
+            <form id="create-pass-form" method="POST" action="api/create_pass.php">
+                <input type="hidden" name="user_id" value="<?=$user->primary_key?>" />
+                <a onclick="document.getElementById('create-pass-form').submit();">
+                    <img src="img/green-plus.png" />
+                </a>
+            </form>
+            <span>Create New Passbook Pass</span>
+        </div>
+    <?php endif; ?>
 
     <h2>Biscuits</h2>
     <div id="user-biscuits">

@@ -28,6 +28,7 @@ class User extends ModelBase {
     public $highscore_name;
     public $weight;
     public $num_credits;
+    public $pass_filename;
 
     /* Overrides */
 
@@ -39,6 +40,13 @@ class User extends ModelBase {
     protected function before_create()
     {
         $this->uuid = uniqid();
+        if (!isset($this->display_name)) {
+            $this->display_name = $this->username;
+        }
+
+        if (!isset($this->highscore_name)) {
+            $this->highscore_name = strtoupper(substr($this->display_name, 0, 4));
+        }
     }
 
     /* Managing Active User */

@@ -45,3 +45,23 @@ td.property-table-key {
 td.property-table-value {
     text-align: left;
 }
+
+div#passbook-container {
+    margin: 20px 0;
+}
+
+div#passbook-container form {
+    display: inline-block;
+}
+
+div#passbook-container a {
+    cursor: pointer;
+}
+
+div#passbook-container img {
+    width: 40px;
+}
+
+div#passbook-container span {
+    font-weight: bold;
+}

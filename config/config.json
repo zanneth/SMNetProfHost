@@ -1,5 +1,6 @@
 {
     "biscuits_path" : "/var/www/smnetprofhost/data/biscuits",
+    "passes_path" : "/var/www/smnetprofhost/data/passes",
 
     "database_hostname" : "localhost",
     "database_port" : 8889,

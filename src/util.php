@@ -22,6 +22,11 @@ class Util {
         return $filepath;
     }
 
+    static function get_asset_path($asset_filename)
+    {
+        return Util::path_join(array(PROJECT_ROOT, "assets", $asset_filename));
+    }
+
     static function config_get_key($key)
     {
         static $__config_dict = NULL;
