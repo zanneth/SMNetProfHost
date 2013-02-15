@@ -22,6 +22,7 @@ if ($valid) {
     $user = User::fetch_user_for_uuid($uuid);
     if ($user != NULL) {
         if ($type == "editable") {
+			Util::log_description($user);
             $editable_data = $user->generate_editable_xml_str();
             output_contents($editable_data);
         } else if ($type == "stats") {

@@ -100,7 +100,8 @@ class User extends ModelBase {
 
         $user = NULL;
         if (count($results) > 0) {
-            $user_id = $results[0];
+			$row = $results[0];
+            $user_id = intval($row[0]);
             $user = new User(array("id" => $user_id));
         }
 
@@ -116,7 +117,8 @@ class User extends ModelBase {
 
         $user = NULL;
         if (count($results) > 0) {
-            $user_id = $results[0];
+			$row = $results[0];
+            $user_id = intval($row[0]);
             $user = new User(array("id" => $user_id));
         }
 

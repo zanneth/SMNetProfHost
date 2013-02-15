@@ -226,13 +226,13 @@ class PassbookPass {
             if ($filename[0] != '.') {
                 $filepath = Util::path_join(array($pass_path, $filename));
                 $zip->addFile($filepath, $filename);
-				error_log($zip->getStatusString());
             }
         }
 
         $success = $zip->close();
-		error_log($zip->getStatusString());
-		error_log($destination_path);
+		if (!$success) {
+			error_log($zip->getStatusString());
+		}
         return $success;
     }
 
