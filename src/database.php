@@ -17,7 +17,7 @@ class SMNetProfDatabase {
     {
         $db_hostname = Util::config_get_key("database_hostname");
         $db_name = Util::config_get_key("database_name");
-		$db_port = Util::config_get_key("database_port");
+        $db_port = Util::config_get_key("database_port");
         $db_username = Util::config_get_key("database_username");
         $db_password = Util::config_get_key("database_password");
         $pdo_dsn = sprintf("mysql:host=%s;dbname=%s;port=%d", $db_hostname, $db_name, $db_port);
