@@ -354,7 +354,7 @@ class SMNetProfPass extends PassbookPass {
         $this->pass_type_identifier = "pass.com.magahern.smnetprofile";
         $this->format_version = 1;
         $this->team_identifier = "64S2YWUDC5";
-        $this->organization_name = "Twins DDR Machine";
+        $this->organization_name = "Cyberdelia";
         $this->description = "Stepmania Net Profile Pass";
 
         $this->certificate_path = Util::path_join(array(PROJECT_ROOT, "support", "PassCertificate.p12"));
@@ -363,7 +363,7 @@ class SMNetProfPass extends PassbookPass {
         $this->certificate_password = "OMHDGC1jh7UjcP";
 
         $this->back_fields[] = new PassbookField("splash_beats", "Just Got Splash Beats!");
-        $this->back_fields[] = new PassbookField("address", "4066 Fitzpatrick Way\nSanta Clara, CA 95054", "Address");
+        $this->back_fields[] = new PassbookField("address", "151 Precita Ave\nSan Francisco, CA 94110", "Address");
 
         $this->icon_path = Util::get_asset_path("icon.png");
         $this->icon_highres_path = Util::get_asset_path("icon@2x.png");
@@ -373,8 +373,8 @@ class SMNetProfPass extends PassbookPass {
         $this->strip_highres_path = Util::get_asset_path("strip@2x.png");
 
         // $this->relevant_date = gmdate(TIMESTAMP_FORMAT, time());
-        // James and Charles's House: 37.397564, -121.945148
-        $this->locations[] = array("latitude" => 37.397564, "longitude" => -121.945148);
+        // James and Charles's Garage: 37.747417, -122.417245
+        $this->locations[] = array("latitude" => 37.747417, "longitude" => -122.417245);
     }
 }
 
@@ -425,7 +425,7 @@ class BiscuitPassbookPass extends SMNetProfPass {
             $this->logo_text = "Stepmania Profile (Unknown User)";
         }
 
-        $this->background_color = array(0, 255, 0);; // green background
+        $this->background_color = array(0, 255, 0); // green background
         $this->foreground_color = array(255, 255, 255);
     }
 }
