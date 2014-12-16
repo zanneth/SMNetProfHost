@@ -363,7 +363,7 @@ class SMNetProfPass extends PassbookPass {
         $this->certificate_password = "OMHDGC1jh7UjcP";
 
         $this->back_fields[] = new PassbookField("splash_beats", "Just Got Splash Beats!");
-        $this->back_fields[] = new PassbookField("address", "151 Precita Ave\nSan Francisco, CA 94110", "Address");
+        $this->back_fields[] = new PassbookField("address", "314 12th St\nSan Francisco, CA 94103", "Address");
 
         $this->icon_path = Util::get_asset_path("icon.png");
         $this->icon_highres_path = Util::get_asset_path("icon@2x.png");
