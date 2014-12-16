@@ -373,8 +373,8 @@ class SMNetProfPass extends PassbookPass {
         $this->strip_highres_path = Util::get_asset_path("strip@2x.png");
 
         // $this->relevant_date = gmdate(TIMESTAMP_FORMAT, time());
-        // James and Charles's Garage: 37.747417, -122.417245
-        $this->locations[] = array("latitude" => 37.747417, "longitude" => -122.417245);
+        // XION SF: 37.7705119, -122.414685
+        $this->locations[] = array("latitude" => 37.7705119, "longitude" => -122.414685);
     }
 }
 
