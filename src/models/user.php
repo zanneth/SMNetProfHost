@@ -22,7 +22,6 @@ EOD;
 
 class User extends ModelBase {
     public $username;
-    public $password_hash;
     public $uuid;
     public $display_name;
     public $highscore_name;
@@ -73,20 +72,6 @@ class User extends ModelBase {
         session_start();
         unset($_SESSION[ACTIVE_USER_SESSION_KEY]);
         session_destroy();
-    }
-
-    /* Password Management */
-
-    function set_password($password)
-    {
-        $hsh = $this->_hash_password($password);
-        $this->password_hash = $hsh;
-    }
-
-    function check_password($password)
-    {
-        $hsh = $this->_hash_password($password);
-        return $hsh == $this->password_hash;
     }
 
     /* Aggregate Constructors */
@@ -146,14 +131,6 @@ class User extends ModelBase {
         global $__editable_xml_format;
         $xml_str = sprintf($__editable_xml_format, $this->display_name, $this->highscore_name, $this->weight);
         return $xml_str;
-    }
-
-    /* Private Functions */
-
-    private function _hash_password($password)
-    {
-        $hsh = hash("sha256", $password);
-        return $hsh;
     }
 }
 
