@@ -354,7 +354,7 @@ class SMNetProfPass extends PassbookPass {
         $this->pass_type_identifier = "pass.com.magahern.smnetprofile";
         $this->format_version = 1;
         $this->team_identifier = "64S2YWUDC5";
-        $this->organization_name = "Cyberdelia";
+        $this->organization_name = "XION";
         $this->description = "Stepmania Net Profile Pass";
 
         $this->certificate_path = Util::path_join(array(PROJECT_ROOT, "support", "PassCertificate.p12"));
