@@ -57,7 +57,6 @@ class PassbookPass {
 
     // cryptography fields (required)
     public $certificate_path;
-    public $private_key_path;
     public $wwdr_path;
     public $certificate_password;   // string for the password to the certificate
 
@@ -176,7 +175,6 @@ class PassbookPass {
     public function save_signature_file($manifest_path, $destination_path)
     {
         assert(isset($this->certificate_path), "Path to certificate file not provided.");
-        assert(isset($this->private_key_path), "Path to private key not provided.");
         assert(isset($this->wwdr_path), "Path to WWDR certificate not provided.");
         assert(isset($this->certificate_password), "Password for the certificate file was not provided.");
 
@@ -358,7 +356,6 @@ class SMNetProfPass extends PassbookPass {
         $this->description = "Stepmania Net Profile Pass";
 
         $this->certificate_path = Util::path_join(array(PROJECT_ROOT, "support", "PassCertificate.p12"));
-        $this->private_key_path = Util::path_join(array(PROJECT_ROOT, "support", "PassPrivateKey.pem"));
         $this->wwdr_path        = Util::path_join(array(PROJECT_ROOT, "support", "WWDR.pem"));
         $this->certificate_password = "OMHDGC1jh7UjcP";
 
